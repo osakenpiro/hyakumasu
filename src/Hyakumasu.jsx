@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback, useEffect } from 'react'
+import VRHeader from './VRHeader'
 
 /* ═══ Pokemon Type Matchup Matrix ═══
    TYPES[i] attacking TYPES[j] → EFFECTIVENESS[i][j]
@@ -164,61 +165,49 @@ export default function Hyakumasu() {
 
   return (
     <div style={{minHeight:'100vh',background:'#0b0f1a',color:'#e4e8f0',display:'flex',flexDirection:'column'}}>
-      {/* Header */}
-      <header style={{
-        padding:'10px 16px',borderBottom:'1px solid #1e2640',
-        display:'flex',alignItems:'center',gap:10,flexWrap:'wrap',
-        position:'sticky',top:0,background:'#0b0f1a',zIndex:10,
-      }}>
-        <div style={{fontSize:18,fontWeight:700}}>🔢 百ますグリッド</div>
+      <VRHeader
+        title="🔢 百ますグリッド"
+        currentApp="hyakumasu"
+        version="v0.2"
+        centerSlot={<>
+          <button onClick={() => setSwap(!swap)} style={{
+            padding:'4px 12px',fontSize:11,fontWeight:600,borderRadius:10,cursor:'pointer',
+            border:'none',background:'#1e2640',color:'#c4c9d4',
+          }} title="行列入れ替え">🔄 {rowAxis}×{colAxis}</button>
 
-        <button onClick={() => setSwap(!swap)} style={{
-          padding:'4px 12px',fontSize:11,fontWeight:600,borderRadius:10,cursor:'pointer',
-          border:'none',background:'#1e2640',color:'#c4c9d4',
-        }} title="行列入れ替え">🔄 {rowAxis}×{colAxis}</button>
+          <div style={{display:'flex',gap:4}}>
+            {[
+              {id:'all', label:'全部'},
+              {id:'super', label:'◇相性'},
+              {id:'weakness', label:'×2'},
+              {id:'resist', label:'½'},
+              {id:'immune', label:'0'},
+            ].map(f => (
+              <button key={f.id} onClick={() => setFilter(f.id)} style={{
+                padding:'3px 9px',fontSize:10,borderRadius:8,cursor:'pointer',
+                border:'none',
+                background: filter===f.id ? '#ffd166' : '#111827',
+                color: filter===f.id ? '#0b0f1a' : '#8892b0',
+                fontWeight: filter===f.id ? 700 : 500,
+              }}>{f.label}</button>
+            ))}
+          </div>
 
-        <div style={{display:'flex',gap:4}}>
-          {[
-            {id:'all', label:'全部'},
-            {id:'super', label:'◇相性'},
-            {id:'weakness', label:'×2'},
-            {id:'resist', label:'½'},
-            {id:'immune', label:'0'},
-          ].map(f => (
-            <button key={f.id} onClick={() => setFilter(f.id)} style={{
-              padding:'3px 9px',fontSize:10,borderRadius:8,cursor:'pointer',
-              border:'none',
-              background: filter===f.id ? '#ffd166' : '#111827',
-              color: filter===f.id ? '#0b0f1a' : '#8892b0',
-              fontWeight: filter===f.id ? 700 : 500,
-            }}>{f.label}</button>
-          ))}
-        </div>
-
-        <input value={search} onChange={e => setSearch(e.target.value)}
-          placeholder="🔍 タイプ名"
-          style={{
-            padding:'5px 10px',fontSize:12,minWidth:120,
-            background:'#111827',border:`1px solid ${search?'#ffd166':'#1e2640'}`,
-            borderRadius:8,color:'#e4e8f0',outline:'none',
-          }}/>
-
-        <div style={{marginLeft:'auto',display:'flex',gap:6,alignItems:'center'}}>
+          <input value={search} onChange={e => setSearch(e.target.value)}
+            placeholder="🔍 タイプ名"
+            style={{
+              padding:'5px 10px',fontSize:12,minWidth:120,
+              background:'#111827',border:`1px solid ${search?'#ffd166':'#1e2640'}`,
+              borderRadius:8,color:'#e4e8f0',outline:'none',
+            }}/>
+        </>}
+        rightSlot={<>
           <button onClick={handleExport} style={{
             padding:'4px 10px',fontSize:11,fontWeight:600,borderRadius:8,cursor:'pointer',
             border:'1px solid #1e2640',background:'#111827',color:'#c4c9d4',
           }}>📤 CSV</button>
-          <a href="https://osakenpiro.github.io/wakkazukan/" target="_blank" rel="noreferrer"
-            style={{color:'#8892b0',fontSize:11,textDecoration:'none'}}>🪐 わっか</a>
-          <a href="https://osakenpiro.github.io/banet-map/" target="_blank" rel="noreferrer"
-            style={{color:'#8892b0',fontSize:11,textDecoration:'none'}}>🌀 バネット</a>
-          <a href="https://osakenpiro.github.io/tana-zukan/" target="_blank" rel="noreferrer"
-            style={{color:'#8892b0',fontSize:11,textDecoration:'none'}}>📚 たな</a>
-          <a href="https://osakenpiro.github.io/vr-akinator/" target="_blank" rel="noreferrer"
-            style={{color:'#8892b0',fontSize:11,textDecoration:'none'}}>🧙 魔神</a>
-          <span style={{fontSize:10,padding:'3px 8px',background:'#ffd166',color:'#0b0f1a',borderRadius:10,fontWeight:700}}>v0.1</span>
-        </div>
-      </header>
+        </>}
+      />
 
       {/* Grid */}
       <div style={{flex:1,overflow:'auto',padding:8}}>
