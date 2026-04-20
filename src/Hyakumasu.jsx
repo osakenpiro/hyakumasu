@@ -214,6 +214,8 @@ export default function Hyakumasu() {
             style={{color:'#8892b0',fontSize:11,textDecoration:'none'}}>🌀 バネット</a>
           <a href="https://osakenpiro.github.io/tana-zukan/" target="_blank" rel="noreferrer"
             style={{color:'#8892b0',fontSize:11,textDecoration:'none'}}>📚 たな</a>
+          <a href="https://osakenpiro.github.io/vr-akinator/" target="_blank" rel="noreferrer"
+            style={{color:'#8892b0',fontSize:11,textDecoration:'none'}}>🧙 魔神</a>
           <span style={{fontSize:10,padding:'3px 8px',background:'#ffd166',color:'#0b0f1a',borderRadius:10,fontWeight:700}}>v0.1</span>
         </div>
       </header>
